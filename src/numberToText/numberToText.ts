@@ -1,10 +1,15 @@
+export const ones: Record<number, string> = {
+	1: "eins",
+	2: "zwei",
+	3: "drei",
+	4: "vier",
+	5: "fünf",
+	6: "sechs",
+	7: "sieben",
+	8: "acht",
+	9: "neun",
+}
+
 export default function numberToText(number: number): string {
-	if (number === 1) {
-		return "eins";
-	} else if (number === 2) {
-		return "zwei";
-	} else if (number === 3) {
-		return "drei";
-	}
-	return "";
+	return ones[number];
 }
