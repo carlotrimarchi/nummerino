@@ -23,7 +23,26 @@ export const teens: Record<number, string> = {
 	19: "neunzehn",
 };
 
-const numberGroups = [ones, teens];
+export const tens: Record<number, string> = {
+	20: "zwanzig",
+	30: "dreißig",
+	40: "vierzig",
+	50: "fünfzig",
+	60: "sechzig",
+	70: "siebzig",
+	80: "achtzig",
+	90: "neunzig",
+};
+
+export const scales: Record<number, string> = {
+	100: "hundert",
+	1_000: "tausend",
+	1_000_000: "million",
+	1_000_000_000: "milliarde",
+	1_000_000_000_000: "billion",
+}
+
+const numberGroups = [ones, teens, tens, scales];
 
 export default function numberToText(number: number): string {
 	for (const numberGroup of numberGroups) {
