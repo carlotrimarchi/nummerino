@@ -19,87 +19,73 @@ describe("getPlaceValues", () => {
 	it.each(cases)("gets %i → %j", (input, expected) => {
 		expect(getPlaceValues(input as number)).toEqual(expected);
 	});
+});
 
-	describe("numberToText", () => {
-		describe("ones", () => {
-			it("1", () => {
-				expect(numberToText(1)).toBe("eins");
-			});
-
-			Object.entries(ones).forEach(([number, text]) => {
-				if (number === "1") return;
-				it(`converts ${number} to ${text}`, () => {
-					expect(numberToText(Number(number))).toBe(text);
-				});
-			});
+describe("numberToText", () => {
+	describe("single digit numbers", () => {
+		it("converts 1 to eins (special case)", () => {
+			expect(numberToText(1)).toBe("eins");
 		});
 
-		// describe("teens", () => {
-		// 	Object.entries(teens).forEach(([number, text]) => {
-		// 		it(`converts ${number} to ${text}`, () => {
-		// 			expect(numberToText(Number(number))).toBe(text);
-		// 		});
-		// 	});
-		// });
-
-		// describe("tens", () => {
-		// 	Object.entries(tens).forEach(([number, text]) => {
-		// 		it(`converts ${number} to ${text}`, () => {
-		// 			expect(numberToText(Number(number))).toBe(text);
-		// 		});
-		// 	});
-		// });
-
-		// describe("scales", () => {
-		// 	Object.entries(scales).forEach(([number, text]) => {
-		// 		it(`converts ${number} to ${text}`, () => {
-		// 			expect(numberToText(Number(number))).toBe(text);
-		// 		});
-		// 	});
-		// });
-
-		// 	describe("10", () => {
-		// 		it("10 to zehn", () => {
-		// 			expect(numberToText(10)).toBe("zehn");
-		// 		});
-		// 	});
-
-		// 	describe("20", () => {
-		// 		it("20 to zwanzig", () => {
-		// 			expect(numberToText(20)).toBe("zwanzig");
-		// 		});
-		// 	});
-		// 	describe("23", () => {
-		// 		it("23 to drei und zwanzig", () => {
-		// 			expect(numberToText(23)).toBe("drei und zwanzig");
-		// 		});
-		// 	});
+		Object.entries(ones).forEach(([number, text]) => {
+			// avoid testing 1, since it's being tested just above
+			if (number === "1") return;
+			it(`converts ${number} to ${text}`, () => {
+				expect(numberToText(Number(number))).toBe(text);
+			});
+		});
 	});
 
-	it("1", () => {
-		expect(numberToText(1)).toBe("eins");
+	describe("numbers from 10 to 19", () => {
+		Object.entries(teens).forEach(([number, text]) => {
+			it(`converts ${number} to ${text}`, () => {
+				expect(numberToText(Number(number))).toBe(text);
+			});
+		});
 	});
-	it("109 ", () => {
-		expect(numberToText(109)).toBe("ein hundert neun");
+
+	describe("multiples of 10 greater than 10 (20, 30, ...)", () => {
+		Object.entries(tens).forEach(([number, text]) => {
+			it(`converts ${number} to ${text}`, () => {
+				expect(numberToText(Number(number))).toBe(text);
+			});
+		});
 	});
-	it("119 ", () => {
-		expect(numberToText(119)).toBe("ein hundert neunzehn");
+
+	describe("powers of 10 greater than 10 (100, 1000, ...)", () => {
+		const cases: [number, string][] = [
+			[100, "ein hundert"],
+			[1_000, "ein tausend"],
+			[1_000_000, "eine million"],
+			[1_000_000, "eine million"],
+			[1_000_000_000, "eine milliarde"],
+			[1_000_000_000_000, "eine billion"],
+		];
+		it.each(cases)("converts %i to %s", (input, expected) => {
+			expect(numberToText(input)).toBe(expected);
+		});
 	});
-	it("123 ", () => {
-		expect(numberToText(123)).toBe("ein hundert drei und zwanzig");
+
+	describe("compound numbers", () => {
+		const cases: [number, string][] = [
+			[23, "drei und zwanzig"],
+			[109, "ein hundert neun"],
+			[119, "ein hundert neunzehn"],
+			[123, "ein hundert drei und zwanzig"],
+			[200, "zwei hundert"],
+			[223, "zwei hundert drei und zwanzig"],
+			[555, "fünf hundert fünf und fünfzig"],
+			[741, "sieben hundert ein und vierzig"],
+			[1234, "ein tausend zwei hundert vier und dreißig"],
+			[2_000, "zwei tausend"],
+			[10_000, "zehn tausend"],
+			[19_000, "neunzehn tausend"],
+			[2_000_000, "zwei million"],
+			[3_000_000_000, "drei milliarde"],
+		];
+
+		it.each(cases)("converts %i to %s", (input, expected) => {
+			expect(numberToText(input)).toBe(expected);
+		});
 	});
-	// it("223 ", () => {
-	// 	expect(numberToText(223)).toBe("zwei hundert drei und zwanzig");
-	// });
-	// it("1234 ", () => {
-	// 	expect(numberToText(1234)).toBe(
-	// 		"ein tausend zwei hundert vier und dreißig",
-	// 	);
-	// });
-	// it("555 ", () => {
-	// 	expect(numberToText(555)).toBe("fünf hundert fünf und fünfzig");
-	// });
-	// it("741 ", () => {
-	// 	expect(numberToText(741)).toBe("sieben hundert ein und vierzig");
-	// });
 });
