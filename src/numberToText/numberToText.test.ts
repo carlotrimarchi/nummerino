@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { numberToText, getPlaceValues } from "./numberToText";
-import { ones, teens, tens, scales } from "./numberToText";
+import { ones, teens, tens } from "./data";
 
 describe("getPlaceValues", () => {
 	const cases: [number, number[]][] = [
