@@ -1,86 +1,105 @@
-import { ones, teens, tens, scales } from "./data";
+import { ones, teens, tens, scales, numberGroups } from "./data";
 
-export function numberToText(number: number): string {
-	if (number === 1) return "eins";
-	const placeValues = getPlaceValues(number).reverse();
-	console.log("placeValues", placeValues);
-	const result = [];
+export function getScale(number: number): number {
+	return Number(
+		Object.keys(scales)
+			.map(Number)
+			.sort((a, b) => b - a)
+			.find((scale) => number >= scale),
+	);
+}
 
-	const stop = placeValues.length > 2 ? 2 : 0;
+export function smallValuesToWords(values: number[]): string {
+	if (values.length === 0) return "";
+	if (!values[1]) {
+		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
+	}
 
-	for (let i = 0; i < placeValues.length - stop; i++) {
-		console.log("result", result);
-		let value = placeValues[i];
-		const magnitude = Math.pow(10, Math.floor(Math.log10(value)));
+	const units = values[0];
+	const tenths = values[1];
 
-		if (magnitude >= 100) {
-			value = value / magnitude;
-			result.push(ones[value] + " " + scales[magnitude]);
-		} else {
-			for (const numberGroup of numberGroups) {
-				if (value in numberGroup) {
-					if (value === 1) {
-						result.push(numberGroup[value] + "s");
-					} else {
-						result.push(numberGroup[value]);
-					}
-				}
+	if (tenths === 0) return ones[units];
+	if (tenths < 20) return teens[tenths + units];
+
+	return `${ones[units]} und ${tens[tenths]}`;
+}
+
+export function groupByScale(values: number[]): [number, number[]][] {
+	const result = values.reduce(
+		(acc, value) => {
+			const scale = getScale(value);
+			const existing = acc.find(([s]) => s === scale);
+
+			if (existing) {
+				existing[1].push(value);
+			} else {
+				acc.push([scale, [value]]);
 			}
-		}
-	}
+			return acc;
+		},
+		[] as [number, number[]][],
+	);
 
-	if (placeValues.length > 2) {
-		console.log("result", result);
-		const last = placeValues.length - 1;
-		const secondLast = placeValues.length - 2;
-		if (placeValues[secondLast] === 0 && placeValues[last] < 20) {
-			result.push(ones[placeValues[last]]);
-		} else if (placeValues[secondLast] && placeValues[secondLast] < 20) {
-			placeValues[secondLast] += placeValues[last];
-			result.push(teens[placeValues[secondLast]]);
+	return result.sort((a, b) => b[0] - a[0]);
+}
+
+export function largeValuesToWords(
+	groupedValues: [number, number[]][],
+): string {
+	const words: string[] = [];
+
+	for (const [scale, values] of groupedValues) {
+		const sum = values.reduce((a, b) => a + b, 0);
+		const multiplier = sum / scale;
+		const isMultiplierSingular = multiplier === 1;
+		const isScaleFeminine = scales[scale].feminine;
+		const scaleWord = isMultiplierSingular ? scales[scale].singular : scales[scale].plural;
+		let multiplierWord = "";
+		if (isMultiplierSingular) {
+			multiplierWord = isScaleFeminine ? "eine" : "ein";
 		} else {
-			result.push(
-				ones[placeValues[last]] +
-					" und " +
-					tens[placeValues[secondLast]],
-			);
+			multiplierWord = numberToText(multiplier);
 		}
+		words.push(`${multiplierWord} ${scaleWord}`);
 	}
-	console.log(result);
-	// for (const numberGroup of numberGroups) {
-	// 	if (number in numberGroup) {
-	// 		return numberGroup[number];
-	// 	}
-	// }
-	return result.join(" ");
 
-	// .reduce((acc, value, i, array) => {
-	// 	const split = value.split(" ");
-	// 	if (i === array.length - 1) {
-	// 	return acc;
-	// 	}
-	// 	if (i === array.length - 2) {
-	// 		acc += array[array.length - 1] + " und " + value
-	// 		return acc;
-	// 	}
-
-	// 	if (split[1] && scaleWords.includes(split[1])) {
-	// 		acc += value + " ";
-	// 	} else {
-	// 		acc += value + " und "
-	// 	}
-	// 	return acc;
-	// }, "");
+	return words.join(" ");
 }
 
 export function getPlaceValues(number: number): number[] {
+	if (number === 0) return [0];
+
 	const result = [];
 	let place = 1;
 	while (number > 0) {
 		const digit = (number % 10) * place;
-		result.push(digit);
+		if (digit !== 0) {
+			result.push(digit);
+		}
 		number = Math.floor(number / 10);
 		place *= 10;
 	}
 	return result;
+}
+
+export function numberToText(number: number): string {
+	if (number === 0) return "null";
+	if (number === 1) return "eins";
+
+	const placeValues = getPlaceValues(number);
+	const valuesWithScale = placeValues.filter((value) => value >= 100);
+	const valuesWithoutScale = placeValues.filter((value) => value < 100);
+
+	const groupedValuesWithScale = groupByScale(valuesWithScale);
+
+	const withScaleWords = largeValuesToWords(groupedValuesWithScale);
+	const withoutScaleWords = smallValuesToWords(valuesWithoutScale);
+
+	if (withScaleWords && withoutScaleWords) {
+		return withScaleWords + " " + withoutScaleWords;
+	} else if (withoutScaleWords) {
+		return withoutScaleWords;
+	} else {
+		return withScaleWords;
+	}
 }

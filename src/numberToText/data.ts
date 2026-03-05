@@ -34,14 +34,14 @@ export const tens: Record<number, string> = {
 	90: "neunzig",
 };
 
-export const scales: Record<number, string> = {
-	100: "hundert",
-	1_000: "tausend",
-	1_000_000: "million",
-	1_000_000_000: "milliarde",
-	1_000_000_000_000: "billion",
+export const scales: Record<number, { singular: string; plural: string; feminine: boolean }> = {
+  100: { singular: "hundert", plural: "hundert", feminine: false },
+  1_000: { singular: "tausend", plural: "tausend", feminine: false },
+  1_000_000: { singular: "million", plural: "millionen", feminine: true },
+  1_000_000_000: { singular: "milliarde", plural: "milliarden", feminine: true },
+  1_000_000_000_000: { singular: "billion", plural: "billionen", feminine: true },
 };
 
-const scaleWords = ["hundert", "tausend", "million", "milliarde", "billion"];
+export const scaleWords = ["hundert", "tausend", "million", "milliarde", "billion"];
 
-const numberGroups = [ones, teens, tens, scales];
+export const numberGroups = [ones, teens, tens, scales];
