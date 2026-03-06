@@ -3,9 +3,9 @@ import {
 	numberToText,
 	getPlaceValues,
 	getScale,
-	largeValuesToWords,
+	scaledValuesToWords,
 	groupByScale,
-	smallValuesToWords,
+	unscaledValuesToWords,
 } from "./numberToText";
 import { ones, teens, tens } from "./data";
 
@@ -92,7 +92,7 @@ describe("groupByScale", () => {
 	});
 });
 
-describe("largeValuesToWords", () => {
+describe("scaledValuesToWords", () => {
 	const cases: [[number, number[]][], string][] = [
 		[[[1_000, [2_000]]], "zwei tausend"],
 		[[[1_000, [10_000, 9_000]]], "neunzehn tausend"],
@@ -107,11 +107,11 @@ describe("largeValuesToWords", () => {
 		[[[1_000_000_000, [3_000_000_000]]], "drei milliarden"],
 	];
 	it.each(cases)("converts %o to %s", (input, expected) => {
-		expect(largeValuesToWords(input)).toBe(expected);
+		expect(scaledValuesToWords(input)).toBe(expected);
 	});
 });
 
-describe("smallValuesToWords", () => {
+describe("unscaledValuesToWords", () => {
 	const cases: [number[], string][] = [
 		[[1], "ein"],
 		[[2], "zwei"],
@@ -125,7 +125,7 @@ describe("smallValuesToWords", () => {
 	];
 
 	it.each(cases)("converts %i to %s", (input, expected) => {
-		expect(smallValuesToWords(input)).toBe(expected);
+		expect(unscaledValuesToWords(input)).toBe(expected);
 	});
 });
 

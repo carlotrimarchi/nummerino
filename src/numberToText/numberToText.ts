@@ -120,11 +120,11 @@ export function groupByScale(values: number[]): [number, number[]][] {
  * @returns German words for the scaled values, joined by spaces
  * 
  * @example
- * largeValuesToWords([[1_000, [2_000]]]) // -> "zwei tausend"
- * largeValuesToWords([[1_000_000, [2_000_000]], [1_000, [3_000]]]) // -> "zwei millionen drei tausend"
+ * scaledValuesToWords([[1_000, [2_000]]]) // -> "zwei tausend"
+ * scaledValuesToWords([[1_000_000, [2_000_000]], [1_000, [3_000]]]) // -> "zwei millionen drei tausend"
  */
 
-export function largeValuesToWords(
+export function scaledValuesToWords(
 	groupedValues: [number, number[]][],
 ): string {
 	const words: string[] = [];
@@ -155,14 +155,14 @@ export function largeValuesToWords(
  * @returns German word or phrase for the given values
  *
  * @example
- * smallValuesToWords([1]) // -> "ein"
- * smallValuesToWords([9]) // -> "neun"
- * smallValuesToWords([10]) // -> "zehn"
- * smallValuesToWords([3, 20]) // -> "drei und zwanzig"
- * smallValuesToWords([9, 90]) // -> "neun und neunzig"
+ * unscaledValuesToWords([1]) // -> "ein"
+ * unscaledValuesToWords([9]) // -> "neun"
+ * unscaledValuesToWords([10]) // -> "zehn"
+ * unscaledValuesToWords([3, 20]) // -> "drei und zwanzig"
+ * unscaledValuesToWords([9, 90]) // -> "neun und neunzig"
  */
 
-export function smallValuesToWords(values: number[]): string {
+export function unscaledValuesToWords(values: number[]): string {
 	if (values.length === 0) return "";
 
 	if (!values[1]) {
@@ -185,7 +185,7 @@ export function smallValuesToWords(values: number[]): string {
  * Handles special cases for 0 ("null") and 1 ("eins"). For larger numbers,
  * splits place values into scaled (>= 100) and unscaled (< 100) groups,
  * converts them separately and combines the results. Recurses on compound
- * multipliers via `largeValuesToWords`.
+ * multipliers via `scaledValuesToWords`.
  *
  * @param number - The number to convert
  * @returns German word representation of the number
@@ -203,19 +203,19 @@ export function numberToText(number: number): string {
 	if (number === 1) return "eins";
 
 	const placeValues = getPlaceValues(number);
-	const valuesWithScale = placeValues.filter((value) => value >= 100);
-	const valuesWithoutScale = placeValues.filter((value) => value < 100);
+	const scaledValues = placeValues.filter((value) => value >= 100);
+	const unscaledValues = placeValues.filter((value) => value < 100);
 
-	const groupedValuesWithScale = groupByScale(valuesWithScale);
+	const groupedScaledValues = groupByScale(scaledValues);
 
-	const withScaleWords = largeValuesToWords(groupedValuesWithScale);
-	const withoutScaleWords = smallValuesToWords(valuesWithoutScale);
+	const scaledWords = scaledValuesToWords(groupedScaledValues);
+	const unscaledWords = unscaledValuesToWords(unscaledValues);
 
-	if (withScaleWords && withoutScaleWords) {
-		return withScaleWords + " " + withoutScaleWords;
-	} else if (withoutScaleWords) {
-		return withoutScaleWords;
+	if (scaledWords && unscaledWords) {
+		return scaledWords + " " + unscaledWords;
+	} else if (unscaledWords) {
+		return unscaledWords;
 	} else {
-		return withScaleWords;
+		return scaledWords;
 	}
 }
