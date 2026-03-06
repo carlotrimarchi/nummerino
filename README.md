@@ -4,31 +4,32 @@ Convert numbers to German words.
 
 ## Usage
 
-### Install dependencies
+### Install
+
 ```bash
-npm install
+npm install -g @carlotrimarchi/nummerino
 ```
 
 ### Run
 ```bash
-npm run cli -- <number>
+nummerino <number>
 ```
 
 ## Example
 
 ```bash
-npm run cli -- 123
+nummerino -- 123
 # ein hundert drei und zwanzig
 ```
 
 ## Roadmap
 
-- Installable bin
+- [x] Installable bin
 - Web app
 - Text-to-speech output
 - Practice mode
 - Quiz features
-- More number formats (prices, phone numbers, dates)
+- More number formats (time, prices, phone numbers, dates)
 
 ## Changelog
 
