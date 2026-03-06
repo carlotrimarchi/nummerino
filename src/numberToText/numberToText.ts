@@ -150,8 +150,24 @@ export function largeValuesToWords(
 	return words.join(" ");
 }
 
+/**
+ * Given an array of place values < 100, converts them into their
+ * German word representation.
+ *
+ * @param values - Array of place values < 100, from smallest to largest
+ * @returns German word or phrase for the given values
+ *
+ * @example
+ * smallValuesToWords([1]) // -> "ein"
+ * smallValuesToWords([9]) // -> "neun"
+ * smallValuesToWords([10]) // -> "zehn"
+ * smallValuesToWords([3, 20]) // -> "drei und zwanzig"
+ * smallValuesToWords([9, 90]) // -> "neun und neunzig"
+ */
+
 export function smallValuesToWords(values: number[]): string {
 	if (values.length === 0) return "";
+
 	if (!values[1]) {
 		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
 	}
