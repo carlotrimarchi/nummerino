@@ -76,20 +76,19 @@ export function getScale(number: number): number {
 	);
 }
 
-export function smallValuesToWords(values: number[]): string {
-	if (values.length === 0) return "";
-	if (!values[1]) {
-		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
-	}
-
-	const units = values[0];
-	const tenths = values[1];
-
-	if (tenths === 0) return ones[units];
-	if (tenths < 20) return teens[tenths + units];
-
-	return `${ones[units]} und ${tens[tenths]}`;
-}
+/**
+ * 
+ * Given an array of numbers >= 100, groups them by their scale
+ * (100, 1_000, 1_000_000...) and returns an array of [scale, values]
+ * pairs, sorted from largest to smallest scale.
+ * 
+ * @param values - list of numbers `>= 100`
+ * @returns list of numbers grouped by scale
+ * 
+ * @example
+ * groupByScale([3_000, 100_000]) // -> [[1_000, [3_000, 100_000]]]
+ * groupByScale([3_000, 2_000_000]) // -> [[1_000_000, [2_000_000]], [1_000, [3_000]]]
+ */
 
 export function groupByScale(values: number[]): [number, number[]][] {
 	const result = values.reduce(
@@ -109,6 +108,22 @@ export function groupByScale(values: number[]): [number, number[]][] {
 
 	return result.sort((a, b) => b[0] - a[0]);
 }
+
+export function smallValuesToWords(values: number[]): string {
+	if (values.length === 0) return "";
+	if (!values[1]) {
+		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
+	}
+
+	const units = values[0];
+	const tenths = values[1];
+
+	if (tenths === 0) return ones[units];
+	if (tenths < 20) return teens[tenths + units];
+
+	return `${ones[units]} und ${tens[tenths]}`;
+}
+
 
 export function largeValuesToWords(
 	groupedValues: [number, number[]][],
