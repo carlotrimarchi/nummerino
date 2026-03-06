@@ -1,7 +1,6 @@
-import { ones, teens, tens, scales, numberGroups } from "./data";
+import { ones, teens, tens, scales } from "./data";
 
 /**
- * 
  * Decomposes a number into its place values, from smallest 
  * to largest.
  * 
@@ -43,13 +42,12 @@ export function getPlaceValues(number: number): number[] {
 }
 
 /**
- * 
  * Returns the scale for a given number.
  * 
  * The function is used only on numbers `>= 100`.
  * 
  * The scale of a number is the largest scale value (hundert, 
- * tausend, million…) that is less than or equal to the number
+ * tausend, million…) that is less than or equal to the number.
  * 
  * The scale will be used later to express the number as a 
  * multiplier of that scale. 
@@ -57,7 +55,7 @@ export function getPlaceValues(number: number): number[] {
  * In turn, `300` has scale `100` and multiplier `3`.
  * 
  * @param number - The number whose scale we want to get
- * @returns the scale of the number
+ * @returns The scale of the number
  * 
  * @example
  * getScale(100) // -> 100
@@ -78,13 +76,12 @@ export function getScale(number: number): number {
 }
 
 /**
- * 
  * Given an array of numbers >= 100, groups them by their scale
  * (100, 1_000, 1_000_000...) and returns an array of [scale, values]
  * pairs, sorted from largest to smallest scale.
  * 
- * @param values - list of numbers `>= 100`
- * @returns list of numbers grouped by scale
+ * @param values - Array of numbers `>= 100`
+ * @returns Array of numbers grouped by scale
  * 
  * @example
  * groupByScale([3_000, 100_000]) // -> [[1_000, [3_000, 100_000]]]
