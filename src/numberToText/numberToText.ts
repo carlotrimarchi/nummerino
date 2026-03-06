@@ -41,6 +41,32 @@ export function getPlaceValues(number: number): number[] {
 	return result;
 }
 
+/**
+ * 
+ * Returns the scale for a given number.
+ * 
+ * The function is used only on numbers `>= 100`.
+ * 
+ * The scale of a number is the largest scale value (hundert, 
+ * tausend, million…) that is less than or equal to the number
+ * 
+ * The scale will be used later to express the number as a 
+ * multiplier of that scale. 
+ * E.g. `300_000` has scale `1_000` and multiplier `300`. 
+ * In turn, `300` has scale `100` and multiplier `3`.
+ * 
+ * @param number - The number whose scale we want to get
+ * @returns the scale of the number
+ * 
+ * @example
+ * getScale(100) // -> 100
+ * getScale(1_000) // -> 1_000
+ * getScale(3_000) // -> 1_000
+ * getScale(100_000) // -> 1_000
+ * getScale(300_000) // -> 1_000
+ * getScale(3_000_000) // -> 1_000_000
+ */
+
 export function getScale(number: number): number {
 	return Number(
 		Object.keys(scales)
