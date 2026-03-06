@@ -181,9 +181,25 @@ export function smallValuesToWords(values: number[]): string {
 	return `${ones[units]} und ${tens[tenths]}`;
 }
 
-
-
-
+/**
+ * Core of the app. Takes a number and orchestrates the full pipeline
+ * to convert it into its German word representation.
+ *
+ * Handles special cases for 0 ("null") and 1 ("eins"). For larger numbers,
+ * splits place values into scaled (>= 100) and unscaled (< 100) groups,
+ * converts them separately and combines the results. Recurses on compound
+ * multipliers via `largeValuesToWords`.
+ *
+ * @param number - The number to convert
+ * @returns German word representation of the number
+ *
+ * @example
+ * numberToText(0) // -> "null"
+ * numberToText(1) // -> "eins"
+ * numberToText(23) // -> "drei und zwanzig"
+ * numberToText(1_234) // -> "ein tausend zwei hundert vier und dreißig"
+ * numberToText(1_000_000) // -> "eine million"
+ */
 
 export function numberToText(number: number): string {
 	if (number === 0) return "null";
