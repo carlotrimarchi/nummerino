@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "cli": "tsx --silent src/cli.ts",
+    "cli": "npx --silent tsx src/cli.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
