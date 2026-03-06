@@ -1,6 +1,5 @@
 {
-  "name": "nummerino",
-  "private": true,
+  "name": "@carlotrimarchi/nummerino",
   "version": "0.2.0",
   "type": "module",
   "scripts": {
