@@ -1,4 +1,4 @@
-import { numberToText } from "./numberToText/numberToText";
+import { numberToText } from "../core/numberToText/numberToText";
 
 const input = process.argv[2];
 const number = Number(input);
