@@ -27,7 +27,8 @@ export function getPlaceValues(number: number): number[] {
 	const result = [];
 	let place = 1;
 	while (number > 0) {
-		// `% 10` extracts the last digit, `* place` gives it its positional value
+		// `% 10` extracts the last digit, `* place` gives it 
+		// its positional value
 		// e.g. for 123 at place 10: (12 % 10) * 10 = 20
 		const digit = (number % 10) * place;
 		if (digit !== 0) {
@@ -109,21 +110,22 @@ export function groupByScale(values: number[]): [number, number[]][] {
 	return result.sort((a, b) => b[0] - a[0]);
 }
 
-export function smallValuesToWords(values: number[]): string {
-	if (values.length === 0) return "";
-	if (!values[1]) {
-		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
-	}
-
-	const units = values[0];
-	const tenths = values[1];
-
-	if (tenths === 0) return ones[units];
-	if (tenths < 20) return teens[tenths + units];
-
-	return `${ones[units]} und ${tens[tenths]}`;
-}
-
+/**
+ * Given an array of values grouped by scale, converts each group
+ * to its German word representation and returns them joined by spaces.
+ * 
+ * Handles singular/plural and feminine forms for scale words
+ * (e.g. "ein hundert", "eine million", "zwei millionen"). 
+ * For compound multipliers, delegates to `numberToText` recursively.
+ * 
+ * @param groupedValues - Array of [scale, values] pairs, 
+ * sorted from largest to smallest scale
+ * @returns German words for the scaled values, joined by spaces
+ * 
+ * @example
+ * largeValuesToWords([[1_000, [2_000]]]) // -> "zwei tausend"
+ * largeValuesToWords([[1_000_000, [2_000_000]], [1_000, [3_000]]]) // -> "zwei millionen drei tausend"
+ */
 
 export function largeValuesToWords(
 	groupedValues: [number, number[]][],
@@ -147,6 +149,24 @@ export function largeValuesToWords(
 
 	return words.join(" ");
 }
+
+export function smallValuesToWords(values: number[]): string {
+	if (values.length === 0) return "";
+	if (!values[1]) {
+		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
+	}
+
+	const units = values[0];
+	const tenths = values[1];
+
+	if (tenths === 0) return ones[units];
+	if (tenths < 20) return teens[tenths + units];
+
+	return `${ones[units]} und ${tens[tenths]}`;
+}
+
+
+
 
 
 export function numberToText(number: number): string {
