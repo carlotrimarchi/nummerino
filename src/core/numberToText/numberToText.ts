@@ -1,4 +1,4 @@
-import { ones, teens, tens, scales } from "./data";
+import { ones, teens, tens, scales } from "./data.js";
 
 /**
  * Decomposes a number into its place values, from smallest 

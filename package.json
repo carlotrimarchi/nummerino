@@ -1,9 +1,13 @@
 {
-  "name": "nummerino",
-  "private": true,
-  "version": "0.2.0",
+  "name": "@carlotrimarchi/nummerino",
+  "version": "0.3.0",
   "type": "module",
+  "bin": {
+    "nummerino": "./dist/cli/cli.js"
+  },
   "scripts": {
+    "prepare": "npm run build:cli",
+    "build:cli": "tsc -p tsconfig.cli.json",
     "cli": "npx --silent tsx src/cli/cli.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
