@@ -18,13 +18,12 @@ nummerino <number>
 ## Example
 
 ```bash
-nummerino -- 123
+nummerino 123
 # ein hundert drei und zwanzig
 ```
 
 ## Roadmap
 
-- [x] Installable bin
 - Web app
 - Text-to-speech output
 - Practice mode
