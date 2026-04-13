@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import "./App.css";
 import PageHeader from "./components/PageHeader.js";
 import NumberToSpelling from "./components/NumberToSpelling.js";
