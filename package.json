@@ -1,6 +1,6 @@
 {
   "name": "@carlotrimarchi/nummerino",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "type": "module",
   "license": "MIT",
   "bin": {
@@ -21,6 +21,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "test:core": "vitest src/core",
     "test:run": "vitest run"
   },
   "devDependencies": {

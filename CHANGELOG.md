@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-16
+
+### Added
+
+- Numbers can now be expressed in two formats:
+	- joined: e.g. `einhundertdreiundzwanzig`, which is the linguistically correct German form, and 
+	- splitted: e.g. `ein hundert drei und zwanzig`, which is more readable and intended for future text-to-speech use
+- CLI outputs the joined form by default
+- `--splitted` flag to output the splitted form instead
+
+### Changed
+
+- `numberToText` now returns an object `{ joined, splitted }` instead of a string
+
 ## [0.3.0] - 2026-03-06
 
 ### Added
