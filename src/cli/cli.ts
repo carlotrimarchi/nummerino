@@ -2,12 +2,15 @@
 
 import { numberToText } from "../core/numberToText/numberToText.js";
 
-const input = process.argv[2];
+const args = process.argv.slice(2);
+const splitted = args.includes("--splitted");
+const input = args.find((a) => !a.startsWith("--"));
 const number = Number(input);
 
 if (!input || isNaN(number)) {
-	console.error("Usage: nummerino <number>");
+	console.error("Usage: nummerino <number> [--splitted]");
 	process.exit(1);
 }
 
-console.log(numberToText(number));
+const result = numberToText(number);
+console.log(splitted ? result.splitted : result.joined);

@@ -21,6 +21,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "test:core": "vitest src/core",
     "test:run": "vitest run"
   },
   "devDependencies": {
