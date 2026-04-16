@@ -3,10 +3,11 @@ import { useState } from "react";
 import NumberInput from "./NumberInput.js";
 import OutputDisplay from "./OutputDisplay.js";
 
+
 export default function NumberToSpelling() {
 	const [conversionResult, setConversionResult] = useState<{
 		number: number | null;
-		spelled: string | null;
+		spelled: {joined: string, splitted: string} | null;
 	}>({ number: null, spelled: null });
 
 	return (
