@@ -4,13 +4,15 @@ import { Button } from "@/web/components/ui/button";
 import { Input } from "@/web/components/ui/input";
 
 type NumberInputProps = {
-  setConversionResult: React.Dispatch<React.SetStateAction<{
-    number: number | null;
-    spelled: string | null;
-  }>>;
-}
+	setConversionResult: React.Dispatch<
+		React.SetStateAction<{
+			number: number | null;
+			spelled: { joined: string; splitted: string } | null;
+		}>
+	>;
+};
 
-export default function NumberInput({setConversionResult}: NumberInputProps) {
+export default function NumberInput({ setConversionResult }: NumberInputProps) {
 	const [value, setValue] = useState<string>("");
 
 	function handleSubmit(event: React.SubmitEvent) {
@@ -19,7 +21,7 @@ export default function NumberInput({setConversionResult}: NumberInputProps) {
 		const numberValue = Number(value);
 		const newOutput = {
 			number: numberValue,
-			spelled: numberToText(numberValue).joined,
+			spelled: numberToText(numberValue),
 		};
 		setConversionResult(newOutput);
 		setValue("");
