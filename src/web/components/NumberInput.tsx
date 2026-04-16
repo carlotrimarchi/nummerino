@@ -19,7 +19,7 @@ export default function NumberInput({setConversionResult}: NumberInputProps) {
 		const numberValue = Number(value);
 		const newOutput = {
 			number: numberValue,
-			spelled: numberToText(numberValue),
+			spelled: numberToText(numberValue).joined,
 		};
 		setConversionResult(newOutput);
 		setValue("");
