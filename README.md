@@ -12,14 +12,22 @@ npm install -g @carlotrimarchi/nummerino
 
 ### Run
 ```bash
-nummerino <number>
+nummerino <number> [--splitted]
 ```
 
 ## Example
 
 ```bash
 nummerino 123
+# einhundertdreiundzwanzig
+
+nummerino 1234567
+# eine million zweihundertvierunddreißigtausendfünfhundertsiebenundsechzig
+
+nummerino 123 --splitted
 # ein hundert drei und zwanzig
+
+
 ```
 
 ## Roadmap
@@ -32,4 +40,4 @@ nummerino 123
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for release history.
+See [CHANGELOG.md](https://github.com/carlotrimarchi/nummerino/blob/main/CHANGELOG.md) for release history.
