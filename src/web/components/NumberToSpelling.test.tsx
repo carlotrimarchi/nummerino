@@ -18,6 +18,7 @@ describe("NumberToSpelling", () => {
 		render(<NumberToSpelling />);
 
 		await user.type(screen.getByLabelText("Enter a number"), "42");
+		await user.keyboard("{Enter}");
 
 		expect(screen.getByText("zweiundvierzig")).toBeInTheDocument();
 	});
