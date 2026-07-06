@@ -3,6 +3,7 @@
   "version": "0.4.0",
   "type": "module",
   "license": "MIT",
+  "packageManager": "pnpm@11.10.0",
   "bin": {
     "nummerino": "./dist/cli/cli.js"
   },
@@ -13,9 +14,9 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "prepare": "npm run build:cli",
+    "prepare": "tsc -p tsconfig.cli.json",
     "build:cli": "tsc -p tsconfig.cli.json",
-    "cli": "npx --silent tsx src/cli/cli.ts",
+    "cli": "tsx src/cli/cli.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
