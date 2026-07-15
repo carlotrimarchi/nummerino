@@ -1,7 +1,7 @@
 import { it, expect, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import NumberToSpelling from "./NumberToSpelling";
+import NumberToSpelling from "@/web/components/numberToSpelling/NumberToSpelling";
 
 describe("NumberToSpelling", () => {
 	it("typing a number shows it in the output", async () => {

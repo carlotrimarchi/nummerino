@@ -1,5 +1,9 @@
 import { ones, teens, tens, scales } from "./data.js";
 
+export type SpelledOutNumber = {
+  joined: string;
+  splitted: string;
+};
 /**
  * Decomposes a number into its place values, from smallest
  * to largest.
@@ -21,24 +25,24 @@ import { ones, teens, tens, scales } from "./data.js";
  */
 
 export function getPlaceValues(number: number): number[] {
-	if (number === 0) return [0];
+  if (number === 0) return [0];
 
-	const result = [];
-	let place = 1;
-	while (number > 0) {
-		// `% 10` extracts the last digit, `* place` gives it
-		// its positional value
-		// e.g. for 123 at place 10: (12 % 10) * 10 = 20
-		const digit = (number % 10) * place;
-		if (digit !== 0) {
-			result.push(digit);
-		}
-		// remove the last digit from `number`
-		// e.g. 123 -> 12
-		number = Math.floor(number / 10);
-		place *= 10;
-	}
-	return result;
+  const result = [];
+  let place = 1;
+  while (number > 0) {
+    // `% 10` extracts the last digit, `* place` gives it
+    // its positional value
+    // e.g. for 123 at place 10: (12 % 10) * 10 = 20
+    const digit = (number % 10) * place;
+    if (digit !== 0) {
+      result.push(digit);
+    }
+    // remove the last digit from `number`
+    // e.g. 123 -> 12
+    number = Math.floor(number / 10);
+    place *= 10;
+  }
+  return result;
 }
 
 /**
@@ -67,12 +71,12 @@ export function getPlaceValues(number: number): number[] {
  */
 
 export function getScale(number: number): number {
-	return Number(
-		Object.keys(scales)
-			.map(Number)
-			.sort((a, b) => b - a)
-			.find((scale) => number >= scale),
-	);
+  return Number(
+    Object.keys(scales)
+      .map(Number)
+      .sort((a, b) => b - a)
+      .find((scale) => number >= scale),
+  );
 }
 
 /**
@@ -89,22 +93,22 @@ export function getScale(number: number): number {
  */
 
 export function groupByScale(values: number[]): [number, number[]][] {
-	const result = values.reduce(
-		(acc, value) => {
-			const scale = getScale(value);
-			const existing = acc.find(([s]) => s === scale);
+  const result = values.reduce(
+    (acc, value) => {
+      const scale = getScale(value);
+      const existing = acc.find(([s]) => s === scale);
 
-			if (existing) {
-				existing[1].push(value);
-			} else {
-				acc.push([scale, [value]]);
-			}
-			return acc;
-		},
-		[] as [number, number[]][],
-	);
+      if (existing) {
+        existing[1].push(value);
+      } else {
+        acc.push([scale, [value]]);
+      }
+      return acc;
+    },
+    [] as [number, number[]][],
+  );
 
-	return result.sort((a, b) => b[0] - a[0]);
+  return result.sort((a, b) => b[0] - a[0]);
 }
 
 /**
@@ -126,31 +130,32 @@ export function groupByScale(values: number[]): [number, number[]][] {
  */
 
 export function scaledValuesToWords(
-	groupedValues: [number, number[]][],
-	format: "joined" | "splitted" = "splitted",
+  groupedValues: [number, number[]][],
+  format: "joined" | "splitted" = "splitted",
 ): string {
-	const words: string[] = [];
+  const words: string[] = [];
 
-	for (const [scale, values] of groupedValues) {
-		const sum = values.reduce((a, b) => a + b, 0);
-		const multiplier = sum / scale;
-		const isMultiplierSingular = multiplier === 1;
-		const isScaleFeminine = scales[scale].feminine;
-		const scaleWord = isMultiplierSingular
-			? scales[scale].singular
-			: scales[scale].plural;
-		let multiplierWord = "";
-		if (isMultiplierSingular) {
-			multiplierWord = isScaleFeminine ? "eine" : "ein";
-		} else {
-			multiplierWord = numberToTextFormat(multiplier, format);
-		}
-		const separator = format === "joined" && scale < 1_000_000 ? "" : " ";
-		const trailingSeparator = format === "joined" && scale >= 1_000_000 ? " " : "";
-		words.push(`${multiplierWord}${separator}${scaleWord}${trailingSeparator}`);
-	}
+  for (const [scale, values] of groupedValues) {
+    const sum = values.reduce((a, b) => a + b, 0);
+    const multiplier = sum / scale;
+    const isMultiplierSingular = multiplier === 1;
+    const isScaleFeminine = scales[scale].feminine;
+    const scaleWord = isMultiplierSingular
+      ? scales[scale].singular
+      : scales[scale].plural;
+    let multiplierWord = "";
+    if (isMultiplierSingular) {
+      multiplierWord = isScaleFeminine ? "eine" : "ein";
+    } else {
+      multiplierWord = numberToTextFormat(multiplier, format);
+    }
+    const separator = format === "joined" && scale < 1_000_000 ? "" : " ";
+    const trailingSeparator =
+      format === "joined" && scale >= 1_000_000 ? " " : "";
+    words.push(`${multiplierWord}${separator}${scaleWord}${trailingSeparator}`);
+  }
 
-	return words.join(format === "joined" ? "" : " ").trim();
+  return words.join(format === "joined" ? "" : " ").trim();
 }
 
 /**
@@ -170,23 +175,23 @@ export function scaledValuesToWords(
  */
 
 export function unscaledValuesToWords(
-	values: number[],
-	format: "joined" | "splitted" = "splitted",
+  values: number[],
+  format: "joined" | "splitted" = "splitted",
 ): string {
-	if (values.length === 0) return "";
+  if (values.length === 0) return "";
 
-	if (!values[1]) {
-		return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
-	}
+  if (!values[1]) {
+    return ones[values[0]] ?? teens[values[0]] ?? tens[values[0]];
+  }
 
-	const units = values[0];
-	const tenths = values[1];
+  const units = values[0];
+  const tenths = values[1];
 
-	if (tenths === 0) return ones[units];
-	if (tenths < 20) return teens[tenths + units];
+  if (tenths === 0) return ones[units];
+  if (tenths < 20) return teens[tenths + units];
 
-	const und = format === "joined" ? "und" : " und ";
-	return `${ones[units]}${und}${tens[tenths]}`;
+  const und = format === "joined" ? "und" : " und ";
+  return `${ones[units]}${und}${tens[tenths]}`;
 }
 
 /**
@@ -194,38 +199,39 @@ export function unscaledValuesToWords(
  */
 
 function numberToTextFormat(
-	number: number,
-	format: "joined" | "splitted",
+  number: number,
+  format: "joined" | "splitted",
 ): string {
-	if (number === 0) return "null";
-	if (number === 1) return "eins";
+  if (number === 0) return "null";
+  if (number === 1) return "eins";
 
-	const placeValues = getPlaceValues(number);
-	const scaledValues = placeValues.filter((value) => value >= 100);
-	const unscaledValues = placeValues.filter((value) => value < 100);
+  const placeValues = getPlaceValues(number);
+  const scaledValues = placeValues.filter((value) => value >= 100);
+  const unscaledValues = placeValues.filter((value) => value < 100);
 
-	const groupedScaledValues = groupByScale(scaledValues);
+  const groupedScaledValues = groupByScale(scaledValues);
 
-	const scaledWords = scaledValuesToWords(groupedScaledValues, format);
-	const unscaledWords = unscaledValuesToWords(unscaledValues, format);
+  const scaledWords = scaledValuesToWords(groupedScaledValues, format);
+  const unscaledWords = unscaledValuesToWords(unscaledValues, format);
 
-	if (scaledWords && unscaledWords) {
-		const lastScale = groupedScaledValues.at(-1)?.[0] ?? 0;
-		const separator = format === "splitted" || lastScale >= 1_000_000 ? " " : "";
-		return `${scaledWords}${separator}${unscaledWords}`;
-	} else if (unscaledWords) {
-		return unscaledWords;
-	} else {
-		return scaledWords;
-	}
+  if (scaledWords && unscaledWords) {
+    const lastScale = groupedScaledValues.at(-1)?.[0] ?? 0;
+    const separator =
+      format === "splitted" || lastScale >= 1_000_000 ? " " : "";
+    return `${scaledWords}${separator}${unscaledWords}`;
+  } else if (unscaledWords) {
+    return unscaledWords;
+  } else {
+    return scaledWords;
+  }
 }
 
 /**
- * app. Takes a number and converts it into its German word 
+ * app. Takes a number and converts it into its German word
  * representation, returning both joined and splitted formats.
  *
  * @param number - The number to convert
- * @returns Object with `joined` (grammatically correct) and `splitted` (spaced) 
+ * @returns Object with `joined` (grammatically correct) and `splitted` (spaced)
  * German representations
  *
  * @example
@@ -236,9 +242,9 @@ function numberToTextFormat(
  * numberToText(1_000_000) // -> { joined: "eine million", splitted: "eine million" }
  */
 
-export function numberToText(number: number): { joined: string; splitted: string } {
-	return {
-		joined: numberToTextFormat(number, "joined"),
-		splitted: numberToTextFormat(number, "splitted"),
-	};
+export function numberToText(number: number): SpelledOutNumber {
+  return {
+    joined: numberToTextFormat(number, "joined"),
+    splitted: numberToTextFormat(number, "splitted"),
+  };
 }
