@@ -1,0 +1,4 @@
+.main-nav [aria-current="page"] {
+    color: white;
+    text-decoration: none;
+}

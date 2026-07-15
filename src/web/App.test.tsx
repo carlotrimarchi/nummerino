@@ -1,7 +1,8 @@
 import { it } from "vitest";
 import { render } from "@testing-library/react";
-import App from "./App";
+import { RouterProvider } from "react-router";
+import { router } from "@/web/App";
 
 it("renders the app", () => {
-	render(<App />);
+  render(<RouterProvider router={router} />);
 });

@@ -1,22 +1,17 @@
-import Logo from "./Logo";
+import { Link } from "react-router";
+import Logo from "@/web/components/Logo";
+import { Navigation } from "./Navigation";
 
-function PageHeader() {
-	return (
-		<header>
-			<div className="flex flex-col gap-4 mb-8">
-				<Logo />
-				<h1 className="text-2xl">Your German numbers multi-purpose tool</h1>
-			</div>
-			<div className="flex flex-col gap-2 mb-12">
-				<p className="text-lg">
-					Struggling with German numbers? Have no fear, nummerino is
-					here. Your personal assistant, coach, trainer, companion,
-					friend even, for all your number needs and nightmares*.
-				</p>
-				<p className="text-sm text-zinc-400">* exclusively in German</p>
-			</div>
-		</header>
-	);
+export function PageHeader() {
+  return (
+    <header className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <Link to="/">
+          <Logo />
+        </Link>
+        <h1 className="text-l">Your German numbers multi-purpose tool</h1>
+      </div>
+      <Navigation />
+    </header>
+  );
 }
-
-export default PageHeader;
