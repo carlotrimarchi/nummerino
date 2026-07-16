@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 export function Navigation() {
   return (
     <nav className="main-nav">
-      <ul className="flex gap-4 text-2xl">
+      <ul className="flex flex-wrap gap-4 text-2xl">
         <li>
           <NavLink to="/">Home</NavLink>
         </li>
