@@ -59,7 +59,9 @@ export function NumberSpellingQuiz() {
   return (
     <section className="flex flex-col gap-8">
       <SectionHeading>Number to German spelling quiz</SectionHeading>
-      <RangeSelector onChange={setRange} />
+      <div className="hidden sm:block">
+        <RangeSelector onChange={setRange} />
+      </div>
 
       <div className="flex flex-col gap-4">
         <p className="text-muted-foreground">

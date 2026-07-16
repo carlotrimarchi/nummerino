@@ -2,7 +2,7 @@ import React from "react";
 
 const Logo: React.FC = () => (
   <svg
-    className="w-2xs"
+    className="max-w-2xs"
     role="img"
     viewBox="0 0 322 40"
     xmlns="http://www.w3.org/2000/svg"
